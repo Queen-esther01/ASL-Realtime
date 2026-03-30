@@ -9,7 +9,7 @@ import pandas as pd
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, ConfusionMatrixDisplay
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, roc_curve, ConfusionMatrixDisplay
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 # from cv_pipeline import pipeline, parameters
@@ -198,6 +198,8 @@ class HandPose:
         score = svc.score(X_test, y_test)
         accuracy = accuracy_score(y_test, predictions)
         report = classification_report(y_test, predictions)
+        fpr, tpr, thresholds = roc_curve(y_test, predictions)
+        print(f"fpr: {fpr}, tpr: {tpr}, thresholds: {thresholds}")
         print(f'svm score: {score}, accuracy: {accuracy}')
         print(f'classification report: {report}\n')
 
@@ -206,9 +208,9 @@ class HandPose:
                     xticklabels=self.classes, yticklabels=self.classes, cmap="Blues")
         plt.title(f"Confusion Matrix: SVM, Accuracy: {accuracy * 100:.2f}%")
 
-        if not os.path.exists('reports'):
-            os.makedirs('reports')
-        plt.savefig("reports/svm_cm.png")
+        # if not os.path.exists('reports'):
+        #     os.makedirs('reports')
+        # plt.savefig("reports/svm_cm.png")
         plt.close()
         return svc, score, accuracy
 
@@ -224,10 +226,10 @@ class HandPose:
 
 if __name__ == '__main__':
     handPose = HandPose()
-    handPose.find_landmarks()
+    # handPose.find_landmarks()
     # handPose.svc_grid_cv()
     # handPose.logistic_regression_grid_cv()
-    # handPose.train_best_model()
+    handPose.train_best_model()
     # data, _ = handPose.flatten_data()
     # handPose.test_best_model(data)
 

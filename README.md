@@ -4,6 +4,10 @@ Recognise American Sign Language (ASL) letters **A through J** in real time usin
 
 ![ASL Reference](asl.jpg)
 
+### Demo
+
+https://github.com/user-attachments/assets/ASL_Demo.mp4
+
 ---
 
 ## Features
